@@ -1,5 +1,7 @@
 
-document.addEventListener("DOMContentLoaded", (event) => {
+(function(){
+
+    document.addEventListener("DOMContentLoaded", (event) => {
     shuffleCards()
 });
 
@@ -22,14 +24,17 @@ shuffleCards = () => {
     createGameGrid(shuffledCards)
 
 }
-let first_card_clicked = null;
-let second_card_clicked = null;
+let firstCardClicked = null;
+let secondCardClicked = null;
 let total_possible_matches = 9;
 let match_counter = 0;
 let attempts = 0;
 let accuracy = 0;
 let games_played = 0;
 let accuracyTrunkated = 0;
+let hasFlipped = false;
+let lock = false
+
 
 createGameGrid = (cards) => {
     const frontImg = './assets/images/mmile.jpeg'
@@ -40,9 +45,7 @@ createGameGrid = (cards) => {
         for (let j = 0; j < 6; j++) {
             const square = document.createElement("div")
             const card = document.createElement("div");
-            square.classList.add('square')
-            card.classList.add('card', `card${i}${j}`)
-            // card.addEventListener('click', flipCard);
+            card.classList.add('card')
             const back = document.createElement('img')
             const front = document.createElement('img')
             back.classList.add('back-card');
@@ -55,49 +58,57 @@ createGameGrid = (cards) => {
             newCards.splice((5 - j), 1)
             card.appendChild(back)
             card.appendChild(front)
-            // square.appendChild(card)
             row.appendChild(card)
         }
         const gameBoard = document.querySelector('.game-container')
         gameBoard.appendChild(row);
     }
-    applyHandlers()
+    //apply click handler
+    const allCards = document.querySelectorAll('.card');
+    allCards.forEach(card => card.addEventListener('click', flipCard));
+    
 }
-// applyHandlers = () => {
-//     debugger;
-//     document.querySelectorAll('.card').addEventListener('click', cardClicked)
-// // First we detect the click event
-// document.getElementById('the-box').addEventListener('click', function () {
-//     // Using an if statement to check the class
-//     if (this.classList.contains('bad')) {
-//       // The box that we clicked has a class of bad so let's remove it and add the good class
-//      this.classList.remove('bad');
-//      this.classList.add('good');
-//     } else {
-//       // The user obviously can't follow instructions so let's alert them of what is supposed to happen next
-//       alert("You can proceed!");
-//     }
-//   });
-// }
-applyHandlers = () => {
-    const cards = document.querySelectorAll('.card');
-    // const images = document.querySelectorAll('front-card', 'back-card')
-    flipCard = (e) => {
-        e.currentTarget.classList.toggle('flip');
-    }   
-    // images.forEach(image => {image.addEventListener('click', function (e){e.stopPropagation()})})
-    cards.forEach(card => card.addEventListener('click', flipCard));
 
-}
-cardClicked = (e) => {
-    if (second_card_clicked !== null) {
-        return;
+flipCard = (e) => {
+    if (this === firstCardClicked) return;
+    if (lock) return;
+    e.currentTarget.classList.add('flip');
+    
+    if (!hasFlipped) {
+        hasFlipped = true;
+        firstCardClicked = e.currentTarget;
+        return
+    } 
+        hasFlipped = false;
+        secondCardClicked = e.currentTarget;
+        checkIfCardsMatch(firstCardClicked, secondCardClicked);
+}   
+
+checkIfCardsMatch = (first, second) => {
+    const firstImage = first.getElementsByTagName('img')[0];
+    const firstSource = firstImage.src;
+    const secondImage = second.getElementsByTagName('img')[0];
+    const secondSource = secondImage.src;
+    if(firstSource === secondSource){
+        disable()
+        return
     }
-    if(first_card_clicked === this){
-        return;
-    }
-//    if(e.target.classList.contains('front-card')){
-//         document.querySelector('front-card')
-//    }
-    console.log(e.target)
+    flipBack();
 }
+
+
+disable = () => {
+    firstCardClicked.removeEventListener('click', flipCard);
+    secondCardClicked.removeEventListener('click', flipCard);
+}
+
+flipBack = () => {
+    lock = true
+    setTimeout(() => {
+    firstCardClicked.classList.remove('flip');
+    secondCardClicked.classList.remove('flip');
+    lock = false
+}, 1500);
+}
+
+})()
