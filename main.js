@@ -8,7 +8,7 @@
 
     let firstCardClicked = null;
     let secondCardClicked = null;
-    let totalPossibleMatches = 2;
+    let totalPossibleMatches = 12;
     let matchCounter = 0;
     let attempts = 0;
     let accuracy = 0;
