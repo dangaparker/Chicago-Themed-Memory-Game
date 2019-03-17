@@ -92,9 +92,9 @@ body{
     position: relative;
     transform-style: preserve-3d;
     border: 2px solid gray;
+    box-sizing: border-box;
     border-radius: 3px;
     transition: transform 1s;
-    box-shadow: 1px 1px 0 rgba(0, 0, 0, .3);
     transform: scale(1);
 }
 
@@ -133,6 +133,8 @@ body{
 }
 .reset-button:hover, .play-again:hover{
     cursor: pointer;
+    background-color: rgba(14, 45, 105, 0.671);
+    color: white
 }
 .btn-container{
     display: flex;
@@ -151,7 +153,7 @@ body{
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, .7);
-    display: none;
+    /* display: none; */
 }
 
 .modal-body {
@@ -159,10 +161,24 @@ body{
     left: 50%;
     top: 50%;
     min-width: 50%;
-    min-height: 50%;
+    min-height: 36%;
     transform: translate(-50%, -50%);
     color: white;
     text-align: center;
     font-size: 3vw;
     background-color: #95adcc;
+    border: 2px solid rgba(14, 45, 105, 0.671);
 }
+.blink-text {
+    animation: blinker 1s linear infinite;
+    text-shadow: black 2px 2px 2px;
+    margin-bottom: 0;
+  }
+.modal-body .play-again{
+    margin-bottom: 2em;
+}
+  @keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }
