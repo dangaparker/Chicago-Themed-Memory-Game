@@ -8,12 +8,11 @@
 
     let firstCardClicked = null;
     let secondCardClicked = null;
-    let totalPossibleMatches = 12;
+    let totalPossibleMatches = 2;
     let matchCounter = 0;
     let attempts = 0;
     let accuracy = 0;
     let gamesPlayed = 0;
-    let accuracyTrunkated = 0;
     let hasFlipped = false;
     let lock = false
 
@@ -148,6 +147,9 @@
 
     resetGame = () => {
         const container = document.querySelector('.game-container');
+        attempts = 0;
+        accuracy = 0;
+        matchCounter = 0;
         while (container.firstChild) container.removeChild(container.firstChild)
         const accuracyVal = document.querySelector('.accuracy');
         accuracyVal.innerHTML = '0.0 %';
