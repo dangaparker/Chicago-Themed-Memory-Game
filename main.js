@@ -92,7 +92,6 @@
     }
 
     checkIfCardsMatch = (first, second) => {
-        debugger
         const firstImage = first.getElementsByTagName('img')[0];
         const firstSource = firstImage.src;
         const secondImage = second.getElementsByTagName('img')[0];
@@ -101,6 +100,12 @@
         const attemptsVal = document.querySelector('.attempts');
         attemptsVal.innerHTML = attempts;
         if (firstSource === secondSource) {
+            setTimeout(()=>{
+                first.style.border = "none";
+                second.style.border = "none";
+                firstImage.style.display = 'none';
+                secondImage.style.display = 'none';
+            }, 2000)
             matchCounter += 1;
             const matchVal = document.querySelector('.matches');
             matchVal.innerHTML = matchCounter;
