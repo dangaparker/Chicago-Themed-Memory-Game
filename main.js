@@ -6,6 +6,17 @@
         shuffleCards()
     });
 
+    let firstCardClicked = null;
+    let secondCardClicked = null;
+    let totalPossibleMatches = 12;
+    let matchCounter = 0;
+    let attempts = 0;
+    let accuracy = 0;
+    let gamesPlayed = 0;
+    let accuracyTrunkated = 0;
+    let hasFlipped = false;
+    let lock = false
+
     applyClickHandlers = () => {
         const resetBtn = document.querySelector('.reset-button');
         resetBtn.addEventListener('click', resetGame);
@@ -28,23 +39,12 @@
             let removedValue = tempCards[random_number];
             shuffledCards.push(removedValue);
             tempCards.splice(random_number, 1);
-
         }
         console.log(shuffledCards)
         createGameGrid(shuffledCards)
 
     }
-    let firstCardClicked = null;
-    let secondCardClicked = null;
-    let totalPossibleMatches = 12;
-    let matchCounter = 0;
-    let attempts = 0;
-    let accuracy = 0;
-    let gamesPlayed = 0;
-    let accuracyTrunkated = 0;
-    let hasFlipped = false;
-    let lock = false
-
+   
 
     createGameGrid = (cards) => {
         const frontImg = './assets/images/mmile.jpeg'
@@ -72,7 +72,7 @@
             const gameBoard = document.querySelector('.game-container')
             gameBoard.appendChild(row);
         }
-        //apply click handler
+        //apply click handler to created cards
         const allCards = document.querySelectorAll('.card');
         allCards.forEach(card => card.addEventListener('click', flipCard));
     }
